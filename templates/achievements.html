@@ -1,0 +1,242 @@
+{% extends "layout.html" %}
+
+{% block title %}Research Achievements{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="mb-4">Research Achievements</h1>
+            <p class="lead">Track your progress as a scientific researcher and earn achievements.</p>
+        </div>
+    </div>
+
+    <!-- Research Profile Card -->
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="card bg-dark border-secondary">
+                <div class="card-header bg-secondary">
+                    <h3 class="card-title">Research Profile</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 text-center">
+                            <div class="research-level-badge mb-2">{{ profile.research_level }}</div>
+                            <h5>Research Level</h5>
+                            <div class="progress mt-2">
+                                <div class="progress-bar bg-info" role="progressbar" 
+                                    style="width: {{ (profile.total_points % 100) }}%;"
+                                    aria-valuenow="{{ profile.total_points % 100 }}" 
+                                    aria-valuemin="0" aria-valuemax="100">
+                                    {{ profile.total_points % 100 }}/100
+                                </div>
+                            </div>
+                            <small class="text-muted">{{ profile.total_points }} total points</small>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="h2 text-success mb-2">{{ profile.research_cycles_completed }}</div>
+                            <h5>Research Cycles</h5>
+                            <p class="text-muted">Completed</p>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="h2 text-primary mb-2">{{ profile.hypotheses_generated }}</div>
+                            <h5>Hypotheses</h5>
+                            <p class="text-muted">Generated</p>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <div class="h2 text-warning mb-2">{{ profile.papers_published }}</div>
+                            <h5>Papers</h5>
+                            <p class="text-muted">Published</p>
+                        </div>
+                    </div>
+
+                    {% if profile.streak_days > 0 %}
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <div class="alert alert-info">
+                                <i class="fa fa-fire"></i> Research Streak: <strong>{{ profile.streak_days }} day{% if profile.streak_days != 1 %}s{% endif %}</strong>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if profile.favorite_topics %}
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <h5>Recent Research Topics:</h5>
+                            <div>
+                                {% for topic in profile.favorite_topics %}
+                                <span class="badge bg-secondary me-2 mb-2">{{ topic }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Achievements Section -->
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <ul class="nav nav-tabs" id="achievementTabs" role="tablist">
+                {% for category in categories %}
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {% if loop.first %}active{% endif %}" 
+                            id="{{ category.value }}-tab" 
+                            data-bs-toggle="tab" 
+                            data-bs-target="#{{ category.value }}" 
+                            type="button" role="tab" 
+                            aria-controls="{{ category.value }}" 
+                            aria-selected="{% if loop.first %}true{% else %}false{% endif %}">
+                        {{ category.value }}
+                    </button>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="tab-content bg-dark p-4 border border-secondary border-top-0 rounded-bottom" id="achievementTabContent">
+                {% for category in categories %}
+                <div class="tab-pane fade {% if loop.first %}show active{% endif %}" 
+                     id="{{ category.value }}" 
+                     role="tabpanel" 
+                     aria-labelledby="{{ category.value }}-tab">
+                    
+                    {% if achievements_by_category[category.value] %}
+                        <div class="row">
+                            {% for item in achievements_by_category[category.value] %}
+                                <div class="col-md-6 mb-4">
+                                    <div class="card h-100 {% if item.is_completed %}bg-primary bg-opacity-25{% else %}bg-dark{% endif %} border-secondary">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <div class="me-3">
+                                                    <div class="achievement-icon {% if item.is_completed %}text-success{% else %}text-muted{% endif %}">
+                                                        <i class="fa fa-{{ item.achievement.icon_name }} fa-2x"></i>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h5 class="card-title">
+                                                        {{ item.achievement.title }}
+                                                        {% if item.is_completed %}
+                                                            <span class="badge bg-success ms-2">Completed</span>
+                                                        {% endif %}
+                                                    </h5>
+                                                    <p class="card-text">{{ item.achievement.description }}</p>
+                                                    
+                                                    {% if not item.is_completed and item.achievement.required_count > 1 %}
+                                                        <div class="progress mt-2">
+                                                            <div class="progress-bar bg-info" role="progressbar" 
+                                                                style="width: {{ item.progress_percent }}%;" 
+                                                                aria-valuenow="{{ item.progress_percent }}" 
+                                                                aria-valuemin="0" 
+                                                                aria-valuemax="100">
+                                                                {% if item.user_achievement %}
+                                                                    {{ item.user_achievement.progress }}/{{ item.achievement.required_count }}
+                                                                {% else %}
+                                                                    0/{{ item.achievement.required_count }}
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small class="text-muted">
+                                                <i class="fa fa-award"></i> {{ item.achievement.points }} points
+                                            </small>
+                                            {% if item.user_achievement and item.user_achievement.completed %}
+                                                <small class="text-muted float-end">
+                                                    Earned {{ item.user_achievement.earned_at.strftime('%Y-%m-%d') }}
+                                                </small>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-secondary">
+                            No {{ category.value }} achievements available yet.
+                        </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Button (for development only) -->
+    {% if profile.research_level < 5 %}
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <div class="card bg-dark border-secondary">
+                <div class="card-header bg-secondary">
+                    <h3 class="card-title">Achievement Tester</h3>
+                </div>
+                <div class="card-body">
+                    <p>For testing purposes only. Award yourself an achievement:</p>
+                    <select id="achievement-selector" class="form-select bg-dark text-light mb-3">
+                        {% for category in categories %}
+                            <optgroup label="{{ category.value }}">
+                                {% for item in achievements_by_category[category.value] %}
+                                    <option value="{{ item.achievement.id }}" {% if item.is_completed %}disabled{% endif %}>
+                                        {{ item.achievement.title }} {% if item.is_completed %}(already earned){% endif %}
+                                    </option>
+                                {% endfor %}
+                            </optgroup>
+                        {% endfor %}
+                    </select>
+                    <button id="award-achievement" class="btn btn-primary">Award Achievement</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Return Button -->
+    <div class="row mb-4">
+        <div class="col-lg-12">
+            <a href="/" class="btn btn-secondary">
+                <i class="fa fa-arrow-left"></i> Return to Home
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const awardButton = document.getElementById('award-achievement');
+        if (awardButton) {
+            awardButton.addEventListener('click', function() {
+                const achievementId = document.getElementById('achievement-selector').value;
+                
+                fetch('/api/award_achievement', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        'achievement_id': achievementId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`Achievement awarded: ${data.message}`);
+                        location.reload();
+                    } else {
+                        alert(`Error: ${data.error}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while awarding the achievement.');
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}

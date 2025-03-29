@@ -1,0 +1,40 @@
+# Virtual environment
+venv/
+env/
+ENV/
+.env
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+research_sessions.db
+
+# Cache
+__pycache__/
+*.py[cod]
+*$py.class
+.cache/
+.pytest_cache/
+
+# Logs
+*.log
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Runtime data
+.pid
+.replit
+replit.nix
+uv.lock

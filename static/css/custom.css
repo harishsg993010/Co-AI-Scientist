@@ -1,0 +1,121 @@
+/* Custom styles for AI Co-Scientist */
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Achievement System Styles */
+.achievement-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.3);
+    margin-right: 15px;
+}
+
+.achievement-icon.text-success {
+    background-color: rgba(25, 135, 84, 0.2);
+    box-shadow: 0 0 15px rgba(25, 135, 84, 0.5);
+}
+
+.achievement-icon.text-muted {
+    opacity: 0.6;
+}
+
+/* Achievement level badge */
+.research-level-badge {
+    display: inline-block;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    text-align: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0d6efd, #0dcaf0);
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+}
+
+/* Card hover effects */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Custom progress bar */
+.progress {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+/* Agent status styling */
+.agent-item {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Hypothesis card styling */
+.card-body h5 {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Source list styling */
+.list-group-item-action:hover {
+    background-color: rgba(13, 110, 253, 0.1) !important;
+}
+
+/* Custom navbar brand styling */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+/* Icon coloring */
+.text-primary {
+    color: #0d6efd !important;
+}
+
+.text-info {
+    color: #0dcaf0 !important;
+}
+
+.text-success {
+    color: #198754 !important;
+}
+
+.text-warning {
+    color: #ffc107 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .card-body {
+        padding: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    h3 {
+        font-size: 1.3rem;
+    }
+}

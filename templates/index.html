@@ -1,0 +1,183 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card bg-dark shadow-lg border-0">
+            <div class="card-body p-5">
+                <h1 class="text-center mb-4">
+                    <i class="fas fa-microscope text-primary me-2"></i>
+                    AI Co-Scientist
+                </h1>
+                <h3 class="text-center mb-4">Autonomous Research & Invention Assistant</h3>
+                
+                <p class="lead text-center mb-5">
+                    Enter a research topic and let our AI agents conduct autonomous research, 
+                    generate creative hypotheses, invent novel solutions, and produce a comprehensive report with minimal human intervention.
+                </p>
+
+                <form id="research-form" action="/start_research" method="post">
+                    <div class="mb-4">
+                        <label for="topic" class="form-label">Research Topic</label>
+                        <input type="text" class="form-control form-control-lg" id="topic" name="topic" 
+                               placeholder="Enter a research topic or question..." required>
+                        <div class="form-text">
+                            Example: "Impact of social media on adolescent mental health" or "The future of renewable energy storage"
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg" id="start-button">
+                            <i class="fas fa-flask me-2"></i> Start Research
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <h4>How It Works</h4>
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 bg-dark border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-brain text-primary fa-3x mb-3"></i>
+                            <h5>Creative Invention</h5>
+                            <p>Inventor Agent generates novel solutions using specialized creative strategies like analogy, combination, and abstraction.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 bg-dark border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-lightbulb text-warning fa-3x mb-3"></i>
+                            <h5>Hypothesis Generation</h5>
+                            <p>AI agents generate research hypotheses and refine them through iterative cycles.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 bg-dark border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-search text-info fa-3x mb-3"></i>
+                            <h5>Autonomous Research</h5>
+                            <p>Specialized agents gather information from multiple sources and critically evaluate evidence.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100 bg-dark border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <i class="fas fa-file-alt text-success fa-3x mb-3"></i>
+                            <h5>Report Generation</h5>
+                            <p>Generate comprehensive, well-structured research reports with findings and conclusions.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Research Achievements -->
+        <div class="mt-5">
+            <div class="card bg-dark border-1 border-primary">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-2 text-center mb-3 mb-md-0">
+                            <i class="fas fa-trophy text-warning fa-4x"></i>
+                        </div>
+                        <div class="col-md-10">
+                            <h4 class="text-primary">Research Achievements System</h4>
+                            <p class="mb-0">Track your progress as a scientific researcher and unlock achievements as you conduct research, generate hypotheses, and publish papers. Earn points, level up, and build your reputation as a distinguished researcher!</p>
+                            <a href="/achievements" class="btn btn-outline-primary mt-3">
+                                <i class="fas fa-award me-2"></i> View Achievements
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Loading modal -->
+<div class="modal fade" id="loading-modal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-body text-center py-5">
+                <div class="spinner-border text-primary mb-4" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5>Initializing Research Process</h5>
+                <p class="mb-0">Please wait while we set up the AI agents...</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Show loading modal when form is submitted
+    document.getElementById('research-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Show loading modal
+        const loadingModal = new bootstrap.Modal(document.getElementById('loading-modal'));
+        loadingModal.show();
+        
+        // Submit the form via AJAX
+        fetch(this.action, {
+            method: 'POST',
+            body: new FormData(this),
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show achievement toast if any was earned
+                if (data.achievements) {
+                    // Create a toast notification before redirecting
+                    const toastContainer = document.createElement('div');
+                    toastContainer.className = 'position-fixed bottom-0 end-0 p-3';
+                    toastContainer.style.zIndex = '11';
+                    
+                    toastContainer.innerHTML = `
+                        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header bg-success text-white">
+                                <i class="fas fa-trophy me-2"></i>
+                                <strong class="me-auto">Achievement Unlocked!</strong>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                                ${data.achievements}
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(toastContainer);
+                    
+                    // Store achievement notification in session storage to display after redirect
+                    sessionStorage.setItem('achievements', data.achievements);
+                    
+                    // Wait a moment to show the toast before redirecting
+                    setTimeout(() => {
+                        window.location.href = data.redirect;
+                    }, 1500);
+                } else {
+                    // Redirect to results page immediately if no achievements
+                    window.location.href = data.redirect;
+                }
+            } else {
+                loadingModal.hide();
+                alert('Error: ' + data.error);
+            }
+        })
+        .catch(error => {
+            loadingModal.hide();
+            alert('Error: ' + error.message);
+        });
+    });
+</script>
+{% endblock %}

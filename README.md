@@ -3,6 +3,11 @@
 ## Project Overview
 An advanced autonomous AI Co-Scientist system leveraging CrewAI to streamline scientific research workflows, with intelligent multi-agent coordination and adaptive research assistance.
 
+
+![LLM Reasoner 2]()
+
+
+
 ### Core Technologies
 - **CrewAI framework** for research coordination
 - **GPT-4o powered multi-agent** hypothesis generation

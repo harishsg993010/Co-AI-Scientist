@@ -6,7 +6,7 @@ An advanced autonomous AI Co-Scientist system leveraging CrewAI to streamline sc
 
 ![LLM Reasoner 2](https://github.com/harishsg993010/Co-AI-Scientist/blob/main/5.png)
 
-
+![LLM Reasoner 3](https://github.com/harishsg993010/Co-AI-Scientist/blob/main/4.png)
 
 ### Core Technologies
 - **CrewAI framework** for research coordination

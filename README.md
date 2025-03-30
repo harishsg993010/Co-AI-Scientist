@@ -1,12 +1,19 @@
 # AI Co-Scientist: Autonomous Research Assistant
 
 ## Project Overview
-An advanced autonomous AI Co-Scientist system leveraging CrewAI to streamline scientific research workflows, with intelligent multi-agent coordination and adaptive research assistance.
+An  autonomous AI Co-Scientist system leveraging AI agents to streamline scientific research workflows, with intelligent multi-agent coordination and adaptive research assistance.
 
 
 ![LLM Reasoner 2](https://github.com/harishsg993010/Co-AI-Scientist/blob/main/5.png)
 
 ![LLM Reasoner 3](https://github.com/harishsg993010/Co-AI-Scientist/blob/main/4.png)
+
+
+## Research paper wrriten by AI Co Scientist **https://drive.google.com/file/d/1JQqw4WC0-0d8O98G7Vu59GmuhYIX_Zao/view?usp=sharing (EEG2Text using single channel EEG device)
+##  Research paper wrriten by AI Co Scientist **https://drive.google.com/file/d/1sHwAYpQu7pw0oVG9uiO3UWhiOUaULEjg/view?usp=sharing (mpact of social media on adolescent mental health)
+
+## Inspo: This work is heavily inspired from Googles work! 
+
 
 ### Core Technologies
 - **CrewAI framework** for research coordination

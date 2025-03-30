@@ -4,7 +4,7 @@
 An advanced autonomous AI Co-Scientist system leveraging CrewAI to streamline scientific research workflows, with intelligent multi-agent coordination and adaptive research assistance.
 
 
-![LLM Reasoner 2]()
+![LLM Reasoner 2](https://github.com/harishsg993010/Co-AI-Scientist/blob/main/5.png)
 
 
 
